@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <title>Las TINKAS de nor!</title>
+    <style>
+        body {
+          background-color: #f2f2f2;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-family: Arial, sans-serif;
+        }
+        h1 {
+          color: #4caf50;
+          margin-top: 20px;
+          font-size: 36px;
+          text-shadow: 2px 2px #333;
+        }
+        input[type="file"] {
+          margin-top: 20px;
+          padding: 10px;
+          background-color: #ffeb3b;
+          color: #333;
+          border: none;
+          border-radius: 5px;
+          outline: none;
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+          width: 300px;
+          font-size: 20px;
+        }
+        button {
+          margin-top: 20px;
+          padding: 10px 20px;
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          outline: none;
+          cursor: pointer;
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+          font-size: 20px;
+        }
+        ul {
+          margin-top: 20px;
+          list-style: none;
+          padding: 0;
+          width: 500px;
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+          border-radius: 5px;
+          background-color: #fff;
+        }
+        li {
+          color: #333;
+          padding: 10px;
+          background-color: #ffeb3b;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          font-size: 20px;
+        }
+      </style>
+  </head>
+  <body>
+    <h1>Las TINKAS de NOR!</h1>
+    <input type="file" id="fileInput">
+    <button id="uploadButton">Sube el Archivo</button>
+    <ul id="resultList"></ul>
+  </body>
+  <script>
+    const fileInput = document.querySelector("#fileInput");
+    const uploadButton = document.querySelector("#uploadButton");
+    const resultList = document.querySelector("#resultList");
+
+    uploadButton.addEventListener("click", () => {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = event => {
+        const numbers = event.target.result.split(/\s+/);
+        const numberCounts = {};
+        numbers.forEach(number => {
+          if (!numberCounts[number]) {
+            numberCounts[number] = 1;
+          } else {
+            numberCounts[number]++;
+          }
+        });
+        resultList.innerHTML = "";
+        Object.entries(numberCounts)
+          .sort((a, b) => b[1] - a[1])
+          .forEach(([number, count]) => {
+            const li = document.createElement("li");
+            li.textContent = `${number} se repite ${count} veces`;
+            resultList.appendChild(li);
+          });
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</html>
